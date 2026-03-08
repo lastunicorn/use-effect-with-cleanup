@@ -1,5 +1,5 @@
 {
-	"name": "use-effect-timer",
+	"name": "use-effect-with-cleanup",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",

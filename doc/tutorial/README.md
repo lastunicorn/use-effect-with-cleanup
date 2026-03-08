@@ -1,4 +1,4 @@
-# React `useEffect` Tutorial: Timer
+# React `useEffect` Tutorial (with Cleanup)
 
 This repository demonstrates the use of `useEffect` React hook by controlling a timer.
 
@@ -36,6 +36,8 @@ npm install
 
 ## Step 2: Create `UseEffectDemo` component
 
+### Create the component
+
 Add `src/features/use-effect-demo/UseEffectDemo.tsx` file:
 
 ```tsx
@@ -47,6 +49,7 @@ export default function UseEffectDemo() {
 	const [seconds, setSeconds] = useState(0);
 	const [isRunning, setIsRunning] = useState(true);
 
+    // Effect that start the timer when component loads. (After component is displayed on the screen.)
 	useEffect(() => {
 		if (!isRunning) return;
 
@@ -54,10 +57,11 @@ export default function UseEffectDemo() {
 			setSeconds(x => x + 1);
 		}, 1000);
 
+        // Cleanup function returned by the effect.
 		return () => {
 			clearInterval(intervalId);
 		};
-	}, [isRunning]);
+	}, [isRunning]); // Effect's dependecies.
 
 	function handleToggle() {
 		setIsRunning(x => !x);
@@ -86,6 +90,14 @@ export default function UseEffectDemo() {
 }
 
 ```
+
+### Make note of
+
+- The effect is executed after the component is rendered on the screen.
+- The cleanup function returned by the `useEffect` is called when the component is unloaded.
+- The array of dependencies for the effect (in this case one value): `[isRunning]`.
+  - When this value changes, the component is re-loaded (unload and load again) and the effect executed again.
+  - The effect will NOT be executed when the component is reloaded for other reasons than the change of its dependencies: `[isRunning]`.
 
 ## Step 3: Render the component from the app
 
